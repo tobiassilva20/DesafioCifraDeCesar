@@ -139,8 +139,16 @@ public class GraphicalInterface extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				txt4.setText(new Connection().sendFile());
-				btnSend.setEnabled(false);
+				if(btnSend.getText().equals("SEND FILE")) {
+					txt4.setText(new Connection().sendFile());
+					btnSend.setText("CLOSE");
+				}else {
+					
+					System.exit(0);
+				}
+				
+				//btnSend.setEnabled(false);
+				
 			}
 		});
 		

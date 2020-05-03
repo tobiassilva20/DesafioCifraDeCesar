@@ -10,6 +10,6 @@ public class Data {
 		String token;
 		String cifrado;
 		String decifrado;
-		String resumo_cripitocrafico; 
+		String resumo_criptografico; 
 		
 }

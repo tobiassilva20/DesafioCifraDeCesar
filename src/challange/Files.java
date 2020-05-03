@@ -62,7 +62,7 @@ public class Files {
 			Gson gson = new Gson();
 			data = gson.fromJson(aux, Data.class);
 			data.decifrado = decodedText;
-			data.resumo_cripitocrafico = hashGenerated;
+			data.resumo_criptografico = hashGenerated;
 			
 			
 			aux = gson.toJson(data);
