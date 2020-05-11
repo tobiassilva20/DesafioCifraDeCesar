@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import com.google.gson.Gson;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -29,10 +28,10 @@ public class Connection {
 	 * @param 
 	 * @return encoded message
 	 */
-	public String connectToApi(){
+	public String connectToApi(String token){
 		String encoded = "";
 		try {
-			String url = "https://api.codenation.dev/v1/challenge/dev-ps/generate-data?token=a5ce48297dee45257a2b7fd105decbaad6b00a71";
+			String url = "https://api.codenation.dev/v1/challenge/dev-ps/generate-data?token=" + token;
 			HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
@@ -72,12 +71,11 @@ public class Connection {
 	 * @param 
 	 * @return final score for the challenge
 	 */
-	public String sendFile() {
+	public String sendFile(String token) {
 		String score = "";
 		OkHttpClient client = new OkHttpClient().newBuilder().build();
-		MediaType mediaType = MediaType.parse("text/plain");
 		RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("answer", "answer.json", RequestBody.create(MediaType.parse("application/octet-stream"), new File("src\\challange\\answer.json"))).build();
-		Request request = new Request.Builder().url("https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=a5ce48297dee45257a2b7fd105decbaad6b00a71").method("POST", body).build();
+		Request request = new Request.Builder().url("https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=" + token).method("POST", body).build();
 		Response response;
 		try {
 			response = client.newCall(request).execute();
@@ -86,7 +84,6 @@ public class Connection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return score;
 	}
 }

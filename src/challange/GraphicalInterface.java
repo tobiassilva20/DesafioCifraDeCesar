@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -21,8 +22,8 @@ import javax.swing.JTextField;
 public class GraphicalInterface extends JFrame {
 		
 	private static final long serialVersionUID = 1L;
-	private JLabel lbl1, lbl2, lbl3, lbl4;
-	private JTextField txt1, txt2, txt3, txt4;
+	private JLabel lbl1, lbl2, lbl3, lbl4, lbl5;
+	private JTextField txt1, txt2, txt3, txt4, txt5;
 	private JButton btnGet,btnDecode, btnHash, btnSend;
 	
 	public GraphicalInterface() {
@@ -36,26 +37,30 @@ public class GraphicalInterface extends JFrame {
 		lbl3 = new JLabel("Hash Code:");
 		txt4 = new JTextField();
 		lbl4 = new JLabel("Your Score:");
+		txt5 = new JTextField();
+		lbl5 = new JLabel("Enter your token:");
 		btnGet = new JButton("GET FILE");
 		btnDecode = new JButton("DECODE");
 		btnHash = new JButton("GEN. HASH");
 		btnSend = new JButton("SEND FILE");
 		
 		//Labels
-		lbl1.setBounds(20, 25, 150, 20);
-		txt1.setBounds(110, 20, 430, 30);
-		lbl2.setBounds(20, 65, 150, 20);
-		txt2.setBounds(110, 60, 430, 30);
-		lbl3.setBounds(20, 105, 150, 20);
-		txt3.setBounds(110, 100, 430, 30);
-		lbl4.setBounds(20, 145, 150, 20);
-		txt4.setBounds(110, 140, 430, 30);
+		lbl5.setBounds(11, 25, 150, 20);
+		txt5.setBounds(110, 20, 430, 30);
+		lbl1.setBounds(20, 65, 150, 20);
+		txt1.setBounds(110, 60, 430, 30);
+		lbl2.setBounds(20, 105, 150, 20);
+		txt2.setBounds(110, 100, 430, 30);
+		lbl3.setBounds(20, 145, 150, 20);
+		txt3.setBounds(110, 140, 430, 30);
+		lbl4.setBounds(20, 185, 150, 20);
+		txt4.setBounds(110, 180, 430, 30);
 		
 		//Buttons
-		btnGet.setBounds(110, 200, 100, 30);
-		btnDecode.setBounds(220, 200, 100, 30);
-		btnHash.setBounds(330, 200, 100, 30);
-		btnSend.setBounds(440, 200, 100, 30);
+		btnGet.setBounds(110, 230, 100, 30);
+		btnDecode.setBounds(220, 230, 100, 30);
+		btnHash.setBounds(330, 230, 100, 30);
+		btnSend.setBounds(440, 230, 100, 30);
 		
 		txt1.setEditable(false);
 		txt2.setEditable(false);
@@ -73,6 +78,8 @@ public class GraphicalInterface extends JFrame {
 		container.add(txt3);
 		container.add(lbl4);
 		container.add(txt4);
+		container.add(lbl5);
+		container.add(txt5);
 		container.add(btnGet);
 		container.add(btnDecode);
 		container.add(btnHash);
@@ -90,15 +97,21 @@ public class GraphicalInterface extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					txt1.setText(new Connection().connectToApi());
-					btnDecode.setEnabled(true);
-					btnGet.setEnabled(false);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					System.err.println("Erro na conversão!");
+				if(txt5.getText().length() != 40) {
+					JOptionPane.showConfirmDialog(null,
+			                "Invalid Token! \nPlease try again.", "ERROR!", JOptionPane.DEFAULT_OPTION);
+				}else {
+					try {
+						txt5.setEditable(false);
+						txt1.setText(new Connection().connectToApi(txt5.getText()));
+						btnDecode.setEnabled(true);
+						btnGet.setEnabled(false);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						System.err.println("Erro na conversão!");
+					}
 				}
+				
 				
 			}
 		});
@@ -140,15 +153,12 @@ public class GraphicalInterface extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				if(btnSend.getText().equals("SEND FILE")) {
-					txt4.setText(new Connection().sendFile());
+					txt4.setText(new Connection().sendFile(txt5.getText()));
 					btnSend.setText("CLOSE");
 				}else {
 					
 					System.exit(0);
 				}
-				
-				//btnSend.setEnabled(false);
-				
 			}
 		});
 		
